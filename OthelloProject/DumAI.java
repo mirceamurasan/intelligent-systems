@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * A simple OthelloAI-implementation. The method to decide the next move just
@@ -13,8 +14,9 @@ public class DumAI implements IOthelloAI{
 	 */
 	public Position decideMove(GameState s){
 		ArrayList<Position> moves = s.legalMoves();
+		Random r=new Random();
 		if ( !moves.isEmpty() )
-			return moves.get(0);
+			return moves.get(r.nextInt(moves.size()));
 		else
 			return new Position(-1,-1);
 	}
