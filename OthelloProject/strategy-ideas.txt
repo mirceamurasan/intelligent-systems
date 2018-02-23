@@ -1,0 +1,3 @@
+-count the number of tokens to get the utility of a state
+-some token positions are more valuable (edges and corners) because they cannot be captured
+-avoid positions directly next to the edges and corners as the adversary will capture them and get the advantage of holding these valuable positions
