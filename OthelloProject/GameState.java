@@ -175,7 +175,7 @@ public class GameState {
      * @param deltaX The step to be taken in the x-direction. Should be -1 (left), 0 (none), or 1 (right).
      * @param deltaY The step to be taken in the delta direction. Should be -1 (up), 0 (none), or 1 (down).
      */
-    private int captureInDirection(Position p, int deltaX, int deltaY){
+    public int captureInDirection(Position p, int deltaX, int deltaY){
     	int opponent = (currentPlayer == 1 ? 2 : 1); 
         
     	int captured = 0;
