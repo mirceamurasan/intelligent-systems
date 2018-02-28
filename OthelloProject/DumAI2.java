@@ -7,7 +7,7 @@ import java.util.Random;
  * @author Mai Ajspur
  * @version 9.2.2018
  */
-public class DumAI implements IOthelloAI{
+public class DumAI2 implements IOthelloAI{
 
 	/**
 	 * Returns first legal move
