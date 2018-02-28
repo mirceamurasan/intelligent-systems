@@ -12,21 +12,33 @@ public class OthelloAI2 implements IOthelloAI{
 			weights = new int[size][size];
 			
 			// Fill in weights		
-			
 			for (int x = 0; x < size; x++) {
 				for (int y = 0; y < size; y++) {
-					
-					// Edges
-					if (x == 0 || x == size || y == 0 || y == size) {
-						weights[x][y] = 3;
-					} else {
-						weights[x][y] = 2;
-					}
-					
-					// Second Edge
-					//if (x == 1 || x == size-1 || y == 1 || y == size-1) { 
-					//	weights[x][y] = 1;
-					//}
+					weights[x][y] = 2;
+				}
+			}
+			
+			// Edges
+			for (int x = 0; x < size; x++) {
+				weights[x][0] = 3;
+				weights[x][size-1] = 3;
+			}
+			
+			for (int y = 0; y < size; y++) {
+				weights[0][y] = 3;
+				weights[size-1][y] = 3;
+			}
+			
+			// Second Edge if size 6 or larger
+			if (size > 4) {
+				for (int x = 1; x < size-1; x++) {
+				weights[x][0] = 1;
+				weights[x][size-1] = 1;
+				}
+				
+				for (int y = 1; y < size-1; y++) {
+					weights[0][y] = 1;
+					weights[size-1][y] = 1;
 				}
 			}
 			
