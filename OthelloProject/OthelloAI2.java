@@ -6,56 +6,8 @@ public class OthelloAI2 implements IOthelloAI{
 	public Position decideMove(GameState s){
 		
 		// Defining weights
-		if (weights == null) {
-			int size = s.getBoard().length;
-			System.out.println(size);
-			weights = new int[size][size];
-			
-			// Fill in weights		
-			for (int x = 0; x < size; x++) {
-				for (int y = 0; y < size; y++) {
-					weights[x][y] = 2;
-				}
-			}
-			
-			// Edges
-			for (int x = 0; x < size; x++) {
-				weights[x][0] = 3;
-				weights[x][size-1] = 3;
-			}
-			
-			for (int y = 0; y < size; y++) {
-				weights[0][y] = 3;
-				weights[size-1][y] = 3;
-			}
-			
-			// Second Edge if size 6 or larger
-			if (size > 4) {
-				for (int x = 1; x < size-1; x++) {
-				weights[x][0] = 1;
-				weights[x][size-1] = 1;
-				}
-				
-				for (int y = 1; y < size-1; y++) {
-					weights[0][y] = 1;
-					weights[size-1][y] = 1;
-				}
-			}
-			
-			// Corners
-			weights[0][0] = 4;
-			weights[0][size-1] = 4;
-			weights[size-1][0] = 4;
-			weights[size-1][size-1] = 4;
-			
-			for (int x = 0; x < size; x++) {
-				for (int y = 0; y < size; y++) {
-					System.out.print(weights[x][y] + " ");
-				}
-				System.out.println();
-			}
-		}
-		
+		definingWeights(s);
+
 		ArrayList<Position> moves = s.legalMoves();
 		Position best=moves.get(0);
 		int max=0;
@@ -70,7 +22,59 @@ public class OthelloAI2 implements IOthelloAI{
 		}
 		return best;
 	}
-	
+
+	private void definingWeights(GameState s) {
+		if (weights == null) {
+			int size = s.getBoard().length;
+			System.out.println(size);
+			weights = new int[size][size];
+
+			// Fill in weights
+			for (int x = 0; x < size; x++) {
+				for (int y = 0; y < size; y++) {
+					weights[x][y] = 2;
+				}
+			}
+
+			// Edges
+			for (int x = 0; x < size; x++) {
+				weights[x][0] = 3;
+				weights[x][size-1] = 3;
+			}
+
+			for (int y = 0; y < size; y++) {
+				weights[0][y] = 3;
+				weights[size-1][y] = 3;
+			}
+
+			// Second Edge if size 6 or larger
+			if (size > 4) {
+				for (int x = 1; x < size-1; x++) {
+				weights[x][0] = 1;
+				weights[x][size-1] = 1;
+				}
+
+				for (int y = 1; y < size-1; y++) {
+					weights[0][y] = 1;
+					weights[size-1][y] = 1;
+				}
+			}
+
+			// Corners
+			weights[0][0] = 4;
+			weights[0][size-1] = 4;
+			weights[size-1][0] = 4;
+			weights[size-1][size-1] = 4;
+
+			for (int x = 0; x < size; x++) {
+				for (int y = 0; y < size; y++) {
+					System.out.print(weights[x][y] + " ");
+				}
+				System.out.println();
+			}
+		}
+	}
+
 	public int max(GameState s,int alpha,int beta){
 		if (s.isFinished())
 			return s.countTokens()[0];
