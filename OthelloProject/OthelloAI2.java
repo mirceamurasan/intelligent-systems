@@ -7,6 +7,7 @@ public class OthelloAI2 implements IOthelloAI{
 
 		// Defining weights
 		definingWeights(s);
+        int searchDepth = 5;
 
 		ArrayList<Position> moves = s.legalMoves();
 		Position best=moves.get(0);
@@ -14,7 +15,7 @@ public class OthelloAI2 implements IOthelloAI{
 		for(Position p : moves){
 			GameState s1=new GameState(s.getBoard(),s.getPlayerInTurn());
 			s1.insertToken(p);
-			int utility=min(s1,0,s.getBoard().length*s.getBoard()[0].length);
+			int utility=min(s1,0,s.getBoard().length*s.getBoard()[0].length, searchDepth - 1);
 					if(max<utility){
 						max=utility;
 						best=p;
@@ -23,7 +24,7 @@ public class OthelloAI2 implements IOthelloAI{
 		return best;
 	}
 
-	public int max(GameState s,int alpha,int beta){
+	public int max(GameState s,int alpha,int beta, int searchDepth){
 		if (s.isFinished())
 			return s.countTokens()[0];
 		int v =0;
@@ -31,7 +32,7 @@ public class OthelloAI2 implements IOthelloAI{
 		for(Position p : moves){
 			GameState s1=new GameState(s.getBoard(),s.getPlayerInTurn());
 			s1.insertToken(p);
-			v=Math.max(v,min(s1,alpha,beta));
+			v=Math.max(v,min(s1,alpha,beta, searchDepth - 1));
 			if(v>beta)
 				return v;
 			alpha=Math.max(v,alpha);
@@ -39,7 +40,7 @@ public class OthelloAI2 implements IOthelloAI{
 		return v;
 	}
 
-	public int min(GameState s,int alpha,int beta){
+	public int min(GameState s,int alpha,int beta, int searchDepth){
 		if (s.isFinished())
 			return s.countTokens()[0];
 		int v =s.getBoard().length*s.getBoard()[0].length;
@@ -47,7 +48,7 @@ public class OthelloAI2 implements IOthelloAI{
 		for(Position p : moves){
 			GameState s1=new GameState(s.getBoard(),s.getPlayerInTurn());
 			s1.insertToken(p);
-			v=Math.min(v,max(s1,alpha,beta));
+			v=Math.min(v,max(s1,alpha,beta, searchDepth - 1));
 			if(v<=alpha)
 				return v;
 			beta=Math.min(v,beta);
@@ -80,7 +81,7 @@ public class OthelloAI2 implements IOthelloAI{
 			}
 
 			// Second Edge if size 6 or larger
-			if (size > 6) {
+			if (size >= 6) {
 				for (int x = 1; x < size-1; x++) {
 					weights[x][1] = 1;
 					weights[x][size-2] = 1;
@@ -97,13 +98,14 @@ public class OthelloAI2 implements IOthelloAI{
 			weights[0][size-1] = 4;
 			weights[size-1][0] = 4;
 			weights[size-1][size-1] = 4;
-
-			for (int x = 0; x < size; x++) {
-				for (int y = 0; y < size; y++) {
-					System.out.print(weights[x][y] + " ");
-				}
-				System.out.println();
-			}
 		}
+
+        System.out.println("Weight Layout");
+        for (int x = 0; x < weights.length; x++) {
+            for (int y = 0; y < weights.length; y++) {
+                System.out.print(weights[x][y] + " ");
+            }
+            System.out.println();
+        }
 	}
 }
