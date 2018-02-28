@@ -1,3 +1,9 @@
 -count the number of tokens to get the utility of a state
 -some token positions are more valuable (edges and corners) because they cannot be captured
 -avoid positions directly next to the edges and corners as the adversary will capture them and get the advantage of holding these valuable positions
+
+Optimazations:
+- Cut off and choose based on a heuristic.
+- Parallel solution
+- Save GameState in hashmap, and look up best move for given gamestate (memorization in dynamic programming)
+- Do one large calculation for first moves. Next moves, just look up best moves based on gamestate.
