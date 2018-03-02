@@ -1,3 +1,4 @@
+-don't use Intelij !!!!!!
 - Open IntelliJ.
 - Press "Import Project". (Very important that you do NOT click "Open Project")
 - Locate the "OthelloProject" folder in the explorer, and expand it (be sure that it is chosen).

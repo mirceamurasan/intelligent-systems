@@ -7,3 +7,5 @@ Optimazations:
 - Parallel solution
 - Save GameState in hashmap, and look up best move for given gamestate (memorization in dynamic programming)
 - Do one large calculation for first moves. Next moves, just look up best moves based on gamestate.
+
+check some strategies on the internet (othello tutorials) and find tricks that we could implement in addition to using the weights

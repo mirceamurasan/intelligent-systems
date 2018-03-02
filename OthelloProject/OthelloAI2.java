@@ -7,7 +7,7 @@ public class OthelloAI2 implements IOthelloAI{
 
 		// Defining weights
 		definingWeights(s);
-        int searchDepth = 5;
+        int searchDepth = 10;
 
 		ArrayList<Position> moves = s.legalMoves();
 		Position best=moves.get(0);
@@ -27,6 +27,8 @@ public class OthelloAI2 implements IOthelloAI{
 	public int max(GameState s,int alpha,int beta, int searchDepth){
 		if (s.isFinished())
 			return s.countTokens()[0];
+		if(searchDepth==0)
+			return cutOffEval(s);
 		int v =0;
 		ArrayList<Position> moves = s.legalMoves();
 		for(Position p : moves){
@@ -43,6 +45,8 @@ public class OthelloAI2 implements IOthelloAI{
 	public int min(GameState s,int alpha,int beta, int searchDepth){
 		if (s.isFinished())
 			return s.countTokens()[0];
+		if(searchDepth==0)
+			return cutOffEval(s);
 		int v =s.getBoard().length*s.getBoard()[0].length;
 		ArrayList<Position> moves = s.legalMoves();
 		for(Position p : moves){
@@ -54,6 +58,19 @@ public class OthelloAI2 implements IOthelloAI{
 			beta=Math.min(v,beta);
 		}
 		return v;
+	}
+	
+	public int cutOffEval(GameState s){
+		int value=0;
+		for(int i=0;i<s.getBoard().length;i++){
+			for(int j=0;j<s.getBoard().length;j++){
+				if(s.getBoard()[i][j]==1)
+					value+=weights[i][j];
+				else if (s.getBoard()[i][j]==2)
+					value-=weights[i][j];
+			}
+		}
+		return value;
 	}
 
 	private void definingWeights(GameState s) {
