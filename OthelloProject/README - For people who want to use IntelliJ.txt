@@ -1,0 +1,7 @@
+- Open IntelliJ.
+- Press "Import Project". (Very important that you do NOT click "Open Project")
+- Locate the "OthelloProject" folder in the explorer, and expand it (be sure that it is chosen).
+- Click next... next... next... next... next... next... finnish.
+- I would suggest that you write code in IntelliJ, and compile + run in CMD.
+- *.xml and *.iml has been added to gitignore (you don't have to do anything).
+- Profit$$$

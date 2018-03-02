@@ -14,9 +14,10 @@ public class DumAI implements IOthelloAI{
 	 */
 	public Position decideMove(GameState s){
 		ArrayList<Position> moves = s.legalMoves();
-		Random r=new Random();
 		if ( !moves.isEmpty() )
-			return moves.get(/*r.nextInt(moves.size())*/0);
+
+			return moves.get(0);
+
 		else
 			return new Position(-1,-1);
 	}
