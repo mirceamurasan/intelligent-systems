@@ -195,4 +195,11 @@ public class GameState {
         	return 0;
     }
 
+	
+	public int utility (){
+		for(int i=0;i<size;i++)
+			for(j=0;j<size;j++){
+				
+			}
+	}
 }
