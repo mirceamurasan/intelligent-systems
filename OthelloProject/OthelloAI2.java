@@ -50,12 +50,19 @@ public class OthelloAI2 implements IOthelloAI{
         Timer timer = new Timer();
         ArrayList<Position> moves = s.legalMoves();
         System.out.println("Number of available moves: " + moves.size());
+        ConcurrentHashMap<GameState,Tuple> cachedComputations = new ConcurrentHashMap<>();
+
         //Computing best move in parallel
         Optional<Tuple> bestMove = moves.stream().parallel().map(position -> {
             GameState s1 = new GameState(s.getBoard(),s.getPlayerInTurn());
+            if(cachedComputations.contains(s1)){
+                return cachedComputations.get(s1);
+            }
             s1.insertToken(position);
             int utility = min(s1,0,s.getBoard().length*s.getBoard()[0].length, searchDepth - 1);
-            return new Tuple(position,utility);
+            Tuple result = new Tuple(position,utility);
+            cachedComputations.putIfAbsent(s1,result);
+            return result;
         }).max(Comparator.comparingInt(t -> t.utilityValue));
         //Print time:
         System.out.println("Took: " + timer.check() + " seconds.");
