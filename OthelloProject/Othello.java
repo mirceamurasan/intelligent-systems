@@ -6,6 +6,7 @@ import java.lang.reflect.*;
 /**
  * The main class that parses command line parameters and initializes the Othello game.
  *
+ *
  * @author Mai Ajspur, Kevin Tierney
  * @version 9.2.2018
  */
@@ -16,6 +17,8 @@ public class Othello
 	/**
      * Valid arguments: ai1 ai2 size 
      * Standard values for size (length of square board) is 8
+     * E.g.
+     * java Othello OthelloAI2 DumAI2 8
      */
     public static void main(String[] args)
     {
