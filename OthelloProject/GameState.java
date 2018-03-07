@@ -205,7 +205,7 @@ public class GameState {
     @Override
     public int hashCode() {
         int result = 17;
-        result = 31 * result + Arrays.hashCode(this.board);
+        result = 31 * result + Arrays.deepHashCode(this.board);
         result = 31 * result + this.currentPlayer;
         return result;
     }
@@ -217,7 +217,7 @@ public class GameState {
         }
         if (o instanceof GameState) {
             GameState other = (GameState) o;
-            return Arrays.equals(board, other.board) && this.currentPlayer == other.currentPlayer;
+            return Arrays.deepEquals(board, other.board) && this.currentPlayer == other.currentPlayer;
         }
         return false;
     }
