@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * Minimax implementation with Alpha-Beta pruning and cut-off evaluation
  */
-public class OthelloAIPrune implements IOthelloAI {
+public class OthelloAIPruneNew implements IOthelloAI {
     public int[][] weights = null;
 
     // fields that allows us to keep/store the alpha/beta values so that they can be remembered
@@ -11,7 +11,7 @@ public class OthelloAIPrune implements IOthelloAI {
     private int ALPHA = Integer.MIN_VALUE;
     private int BETA = Integer.MAX_VALUE;
 
-    private final int SEARCH_DEPTH = 11;
+    private final int SEARCH_DEPTH = 10;
 
     public Position decideMove(GameState s) {
         return decideMovePrune(s);
@@ -46,7 +46,7 @@ public class OthelloAIPrune implements IOthelloAI {
     public int max(GameState s, int alpha, int beta, int searchDepth) {
         if (s.isFinished())
             return s.countTokens()[0];
-        if (searchDepth == 0)
+        if (searchDepth == 0 )
             return cutOffEval(s);
         int v = 0;
         ArrayList<Position> moves = s.legalMoves();
@@ -135,10 +135,28 @@ public class OthelloAIPrune implements IOthelloAI {
             }
 
             // Corners
-            weights[0][0] = 4;
-            weights[0][size - 1] = 4;
-            weights[size - 1][0] = 4;
-            weights[size - 1][size - 1] = 4;
+            weights[0][0] = 5;
+            weights[0][size - 1] = 5;
+            weights[size - 1][0] = 5;
+            weights[size - 1][size - 1] = 5;
+			
+			//almost corners
+			weights[0][1] = 4;
+			weights[1][0] = 4;
+			weights[1][1] = 4;
+			
+			weights[0][size - 2] = 4;
+			weights[1][size - 1] = 4;
+			weights[1][size - 2] = 4;
+			
+			weights[size-2][0] = 4;
+			weights[size-1][1] = 4;
+			weights[size - 2][1] = 4;
+			
+			weights[size - 2][size -2] = 4;
+			weights[size - 2][size-1] = 4;
+			weights[size - 1][size-2] = 4;
+			
         }
 
         System.out.println("Weight Layout");
