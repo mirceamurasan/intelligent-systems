@@ -11,15 +11,14 @@ public class OthelloAIPruneNew implements IOthelloAI {
     private int ALPHA = Integer.MIN_VALUE;
     private int BETA = Integer.MAX_VALUE;
 
-    private final int SEARCH_DEPTH = 10;
+    private final int SEARCH_DEPTH = 10; //Search depth for cutoff function.
 
     public Position decideMove(GameState s) {
         return decideMovePrune(s);
     }
 
-
     public Position decideMovePrune(GameState s) {
-        // Define weights
+        // Define weights (see report)
         definingWeights(s);
         int searchDepth = SEARCH_DEPTH;
 
