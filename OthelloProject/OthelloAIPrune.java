@@ -11,7 +11,7 @@ public class OthelloAIPrune implements IOthelloAI {
     private int ALPHA = Integer.MIN_VALUE;
     private int BETA = Integer.MAX_VALUE;
 
-    private final int SEARCH_DEPTH = 11;
+    private final int SEARCH_DEPTH = 10;
 
     public Position decideMove(GameState s) {
         return decideMovePrune(s);
