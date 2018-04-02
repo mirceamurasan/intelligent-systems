@@ -15,12 +15,25 @@ public class DeboiseLogic implements IQueensLogic{
         this.size = size;
         this.board = new int[size][size];
     }
-   
+
     public int[][] getBoard() {
         return board;
     }
 
-    public void insertQueen(int column, int row) {
-        board[column][row] = 1;
-    }    
+    public void insertQueen(int column, int row)
+    {
+        if (isValid(column, row)) {
+            board[column][row] = 1;
+        }
+    }
+
+    private void markInvalid(int column, int row)
+    {
+
+    }
+
+    private boolean isValid(int column, int row)
+    {
+        return board[column][row] != -1;
+    }
 }

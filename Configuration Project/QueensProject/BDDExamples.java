@@ -13,7 +13,7 @@ public class BDDExamples {
 		BDDFactory fact = JFactory.init(20,20); // The two numbers represents the node number and the cache size.
 												// Not so important - see project description for a useful size.
 		int nVars = 3; // The number of variables to be used.
-		fact.setVarNum(nVars); 
+		fact.setVarNum(nVars);
 		
 		// We can print out the node table (T in your nodes) using the factory
 		System.out.println("The node table: "); // A row contains nodeID, variable number, low_nodeID, high_nodeID
@@ -23,7 +23,7 @@ public class BDDExamples {
 		// Getting the constant BDDs True and False by use of the factory.
 		BDD True = fact.one();
 		BDD False = fact.zero();
-		
+
 		// Using the factory, we can produce BDDs corresponding to the i'th variable for i from 0 to nVars-1 
 		BDD x0 = fact.ithVar(0); // A BDD representing the 0'th variable. 
 		// The factory can also produce BDDs corresponding to the negation of the i'th variable
