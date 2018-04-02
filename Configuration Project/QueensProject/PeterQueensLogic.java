@@ -11,24 +11,40 @@ public class PeterQueensLogic implements IQueensLogic {
     public void initializeBoard(int size) {
         this.size = size;
         this.board = new int[size][size];
-        fact = JFactory.init(20,20);
-        int nVars = size*size;
-        fact.setVarNum(nVars);
+
+        //Init factory
+        fact = JFactory.init(2_000_000,200_000);
+
+        //Create n x n vars:
+        fact.setVarNum(size*size);
+
         System.out.println("The node table: ");
         fact.printAll();
     }
 
     private BDD getVariable(int col, int row){
-        return fact.ithVar((col+2) + (row * size));
+        return fact.ithVar((col) + (row * size));
+    }
+
+    private void assignToFalse(int col, int row){
+
     }
 
     @Override
     public int[][] getBoard() {
+        for(int column = 0; column < size; column++ ){
+            for(int row = 0; row < size; row++){
+                if(getVariable(column, row).isOne()) board[column][row] = 0;
+            }
+        }
         return board;
     }
 
     @Override
     public void insertQueen(int column, int row) {
+        //Mark board:
         board[column][row] = 1;
+        //Change BDD:
+
     }
 }
