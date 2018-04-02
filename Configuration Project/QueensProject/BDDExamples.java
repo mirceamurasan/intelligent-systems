@@ -1,10 +1,9 @@
-/*
 import net.sf.javabdd.*;
 
-*/
+
 /**
  * Class to give some examples of the usage of the BDD package
- *//*
+ */
 
 public class BDDExamples {
 
@@ -49,7 +48,7 @@ public class BDDExamples {
 		fact.printTable(b3);
 		
 		// Satisfiability checks and tautology-checks can be done by comparing to True or False, or using the following 
-		System.out.println("b3 is unsat? : " + b3.isZero()); 		
+		System.out.println("b3 is unset? : " + b3.isZero());
 		System.out.println("b3 is tautology? : " + b3.isOne()); 
 		
 		// In order to restrict or quantify the expression to a given assignment,
@@ -68,4 +67,3 @@ public class BDDExamples {
 		// instead of returning a new BDD
 	}
 }
-*/
