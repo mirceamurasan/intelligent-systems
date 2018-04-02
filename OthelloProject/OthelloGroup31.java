@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * Minimax implementation with Alpha-Beta pruning and cut-off evaluation
  */
-public class OthelloAIPrune implements IOthelloAI {
+public class OthelloGroup31 implements IOthelloAI {
     public int[][] weights = null;
 
     // fields that allows us to keep/store the alpha/beta values so that they can be remembered
@@ -11,8 +11,7 @@ public class OthelloAIPrune implements IOthelloAI {
     private int ALPHA = Integer.MIN_VALUE;
     private int BETA = Integer.MAX_VALUE;
 
-
-    private final int SEARCH_DEPTH = 9;
+    private final int SEARCH_DEPTH = 8;
 
     public Position decideMove(GameState s) {
         return decideMovePrune(s);
@@ -24,9 +23,9 @@ public class OthelloAIPrune implements IOthelloAI {
         definingWeights(s);
         int searchDepth = SEARCH_DEPTH;
 
-        Timer timer = new Timer();
+//        Timer timer = new Timer();
         ArrayList<Position> moves = s.legalMoves();
-        System.out.println("Number of available moves: " + moves.size());
+//        System.out.println("Number of available moves: " + moves.size());
 
         Position best = moves.get(0);
         int max = 0;
@@ -39,7 +38,7 @@ public class OthelloAIPrune implements IOthelloAI {
                 best = p;
             }
         }
-        System.out.println("Took: " + timer.check() + " seconds.");
+//        System.out.println("Took: " + timer.check() + " seconds.");
         return best;
     }
 
@@ -58,7 +57,6 @@ public class OthelloAIPrune implements IOthelloAI {
             if (v > beta)
                 return v;
             alpha = Math.max(v, alpha);
-            //TODO: this maybe is redundant, but I just wanted to be on the safe side :)
             ALPHA = alpha;
         }
         ALPHA = alpha;
@@ -101,7 +99,7 @@ public class OthelloAIPrune implements IOthelloAI {
     private void definingWeights(GameState s) {
         if (weights == null) {
             int size = s.getBoard().length;
-            System.out.println(size);
+//            System.out.println(size);
             weights = new int[size][size];
 
             // Fill in weights
@@ -141,14 +139,14 @@ public class OthelloAIPrune implements IOthelloAI {
             weights[size - 1][0] = 4;
             weights[size - 1][size - 1] = 4;
         }
-
-        System.out.println("Weight Layout");
+/*
+//        System.out.println("Weight Layout");
         for (int x = 0; x < weights.length; x++) {
             for (int y = 0; y < weights.length; y++) {
                 System.out.print(weights[x][y] + " ");
             }
-            System.out.println();
-        }
+//            System.out.println();
+        }*/
     }
 
     /**

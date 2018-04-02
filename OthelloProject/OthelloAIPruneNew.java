@@ -11,21 +11,18 @@ public class OthelloAIPruneNew implements IOthelloAI {
     private int ALPHA = Integer.MIN_VALUE;
     private int BETA = Integer.MAX_VALUE;
 
-    private final int SEARCH_DEPTH = 10;
+    private final int SEARCH_DEPTH = 10; //Search depth for cutoff function.
 
     public Position decideMove(GameState s) {
         return decideMovePrune(s);
     }
 
-
     public Position decideMovePrune(GameState s) {
-        // Define weights
+        // Define weights (see report)
         definingWeights(s);
         int searchDepth = SEARCH_DEPTH;
 
-        Timer timer = new Timer();
         ArrayList<Position> moves = s.legalMoves();
-        System.out.println("Number of available moves: " + moves.size());
 
         Position best = moves.get(0);
         int max = 0;
@@ -38,7 +35,6 @@ public class OthelloAIPruneNew implements IOthelloAI {
                 best = p;
             }
         }
-        System.out.println("Took: " + timer.check() + " seconds.");
         return best;
     }
 
@@ -46,7 +42,7 @@ public class OthelloAIPruneNew implements IOthelloAI {
     public int max(GameState s, int alpha, int beta, int searchDepth) {
         if (s.isFinished())
             return s.countTokens()[0];
-        if (searchDepth == 0 )
+        if (searchDepth == 0)
             return cutOffEval(s);
         int v = 0;
         ArrayList<Position> moves = s.legalMoves();
@@ -57,7 +53,6 @@ public class OthelloAIPruneNew implements IOthelloAI {
             if (v > beta)
                 return v;
             alpha = Math.max(v, alpha);
-            //TODO: this maybe is redundant, but I just wanted to be on the safe side :)
             ALPHA = alpha;
         }
         ALPHA = alpha;
@@ -100,7 +95,6 @@ public class OthelloAIPruneNew implements IOthelloAI {
     private void definingWeights(GameState s) {
         if (weights == null) {
             int size = s.getBoard().length;
-            System.out.println(size);
             weights = new int[size][size];
 
             // Fill in weights
@@ -139,56 +133,29 @@ public class OthelloAIPruneNew implements IOthelloAI {
             weights[0][size - 1] = 5;
             weights[size - 1][0] = 5;
             weights[size - 1][size - 1] = 5;
-			
-			//almost corners
-			weights[0][1] = 4;
-			weights[1][0] = 4;
-			weights[1][1] = 4;
-			
-			weights[0][size - 2] = 4;
-			weights[1][size - 1] = 4;
-			weights[1][size - 2] = 4;
-			
-			weights[size-2][0] = 4;
-			weights[size-1][1] = 4;
-			weights[size - 2][1] = 4;
-			
-			weights[size - 2][size -2] = 4;
-			weights[size - 2][size-1] = 4;
-			weights[size - 1][size-2] = 4;
-			
+
+            //almost corners
+            weights[0][1] = 4;
+            weights[1][0] = 4;
+            weights[1][1] = 4;
+
+            weights[0][size - 2] = 4;
+            weights[1][size - 1] = 4;
+            weights[1][size - 2] = 4;
+
+            weights[size - 2][0] = 4;
+            weights[size - 1][1] = 4;
+            weights[size - 2][1] = 4;
+
+            weights[size - 2][size - 2] = 4;
+            weights[size - 2][size - 1] = 4;
+            weights[size - 1][size - 2] = 4;
+
         }
 
-        System.out.println("Weight Layout");
         for (int x = 0; x < weights.length; x++) {
             for (int y = 0; y < weights.length; y++) {
-                System.out.print(weights[x][y] + " ");
             }
-            System.out.println();
         }
     }
-
-    /**
-     * Class used for timing in seconds.
-     */
-    public class Timer {
-        private long start, spent = 0;
-
-        public Timer() {
-            play();
-        }
-
-        public double check() {
-            return (System.nanoTime() - start + spent) / 1e9;
-        }
-
-        public void pause() {
-            spent += System.nanoTime() - start;
-        }
-
-        public void play() {
-            start = System.nanoTime();
-        }
-    }
-
 }
