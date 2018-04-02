@@ -40,13 +40,6 @@ public class DeboiseLogic implements IQueensLogic{
             board[i][row] = -1;
         }
 
-        // from queen to top right
-/*        int x = column;
-        int y = row;
-        do {
-            board[y][x] = -1;
-        } while (x++ < size-1 && y-- < size-1);*/
-
         // Diagonal (left top -> bottom right)
         int x = row - size;
         int y = column - size;
@@ -69,13 +62,6 @@ public class DeboiseLogic implements IQueensLogic{
             x++;
             y--;
         }
-/*
-        // Diagonal (bottom left -> right top)
-        x = 0;
-        y = size-1;
-        do {
-            board[y][x] = -1;
-        } while (x++ < size && y-- >= 1);*/
     }
 
     private boolean isValidPlacement(int column, int row)
