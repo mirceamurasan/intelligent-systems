@@ -22,12 +22,13 @@ public class DeboiseLogic implements IQueensLogic{
 
     public void insertQueen(int column, int row)
     {
-        if (isValid(column, row)) {
-            markQueen(column, row);
+        if (isValidPlacement(column, row)) {
+            markIllegalMoves(column, row);
+            board[column][row] = 1;
         }
     }
 
-    private void markQueen(int column, int row)
+    private void markIllegalMoves(int column, int row)
     {
         // Horizontal
         for (int i = 0; i < size; i++) {
@@ -39,26 +40,46 @@ public class DeboiseLogic implements IQueensLogic{
             board[i][row] = -1;
         }
 
-        // Diagonal (left top -> bottom right)
-        int x = 0;
-        int y = 0;
+        // from queen to top right
+/*        int x = column;
+        int y = row;
         do {
             board[y][x] = -1;
-        } while (x++ < size-1 && y++ < size-1);
+        } while (x++ < size-1 && y-- < size-1);*/
 
+        // Diagonal (left top -> bottom right)
+        int x = row - size;
+        int y = column - size;
+        while (x < size && y < size) {
+            if (x >= 0 && y >= 0 && x < size && y < size) {
+                board[y][x] = -1;
+            }
+
+            x++;
+            y++;
+        }
+
+        x = row - size;
+        y = column + size;
+        while (x < size && y >= 0) {
+            if (x >= 0 && y >= 0 && x < size && y < size) {
+                board[y][x] = -1;
+            }
+
+            x++;
+            y--;
+        }
+/*
         // Diagonal (bottom left -> right top)
         x = 0;
         y = size-1;
         do {
             board[y][x] = -1;
-        } while (x++ < size && y-- >= 1);
-
-        board[column][row] = 1;
+        } while (x++ < size && y-- >= 1);*/
     }
 
-    private boolean isValid(int column, int row)
+    private boolean isValidPlacement(int column, int row)
     {
-        System.out.println("Hello World");
         return board[column][row] == 0;
     }
 }
