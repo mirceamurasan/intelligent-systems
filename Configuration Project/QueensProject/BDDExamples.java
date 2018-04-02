@@ -1,8 +1,11 @@
+/*
 import net.sf.javabdd.*;
 
+*/
 /**
  * Class to give some examples of the usage of the BDD package
- */
+ *//*
+
 public class BDDExamples {
 
 	public static void main(String[] args){
@@ -65,3 +68,4 @@ public class BDDExamples {
 		// instead of returning a new BDD
 	}
 }
+*/
