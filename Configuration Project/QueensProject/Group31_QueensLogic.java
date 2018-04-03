@@ -59,16 +59,21 @@ public class Group31_QueensLogic implements IQueensLogic{
 	}
 
 	/**
-	 * Adds one rule per column, saying that only one queen can be placed per column.
+	 * Adds one rule per column, saying that at least one queen should be placed in each column.
+	 * In other words: At least one variable in each column should be true.
 	 */
 	public void generateOneQueenPerColumnRule(){
 		for(int col = 0 ; col < size; col++){
-			BDD temp = factory.zero(); 				// one bdd for each column.
+			//Create one BDD for each column:
+			BDD temp = factory.zero();
 			for(int row = 0; row < size; row++){
 				int varNum = getVariable(col,row);
-				temp.orWith(factory.ithVar(varNum));// Only one queen can be placed for this column.
+				//For each column, one variable needs to be true, is the same as or'ing all variables in same
+				//column together.
+				temp.orWith(factory.ithVar(varNum));
 			}
-			rules.andWith(temp); // Add the rule for this column to the BDD of global rules.
+			//Add the rule for this column to the BDD of global rules.
+			rules.andWith(temp);
 		}
 	}
 
@@ -82,9 +87,11 @@ public class Group31_QueensLogic implements IQueensLogic{
 		BDD currentCell = factory.ithVar(current);
 		for(int col = 0; col < size; col++){
 			if(col != column){
+				//And'ing the negation of all other variables in the same row together.
 				temp.andWith(factory.nithVar(getVariable(col, row)));
 			}
 		}
+		//Saying if position (column,row) is true, then all variables in temp has to be false.
 		BDD newRule = currentCell.imp(temp);
 		rules.andWith(newRule);
 	}
@@ -99,9 +106,11 @@ public class Group31_QueensLogic implements IQueensLogic{
 		BDD currentCell = factory.ithVar(current);
 		for(int r = 0; r < size; r++){
 			if(r != row){
+				//And'ing the negation of all other variables in the same column together.
 				temp.andWith(factory.nithVar(getVariable(column, r)));
 			}
 		}
+		//Saying if position (column,row) is true, then all variables in temp has to be false.
 		BDD newRule = currentCell.imp(temp);
 		rules.andWith(newRule);
 	}
@@ -120,14 +129,15 @@ public class Group31_QueensLogic implements IQueensLogic{
 		while (x < size && y < size) {
 			if (x >= 0 && y >= 0 && x < size && y < size) {
 				if(x != row && y != column){
+					//And'ing the negation of all other variables in the same diagonal together.
 					temp.andWith(factory.nithVar(getVariable(y,x)));
 				}
 			}
 			y++;
 			x++;
 		}
-
-		BDD newRule = currentCell.imp(temp); //
+		//Saying if position (column,row) is true, then all variables in temp has to be false.
+		BDD newRule = currentCell.imp(temp);
 		rules.andWith(newRule);
 	}
 
@@ -145,12 +155,14 @@ public class Group31_QueensLogic implements IQueensLogic{
 		while (x < size && y >= 0) {
 			if (x >= 0 && y < size) {
 				if(x != row && y != column){
+					//And'ing the negation of all other variables in the same diagonal together.
 					temp.andWith(factory.nithVar(getVariable(y,x)));
 				}
 			}
 			x++;
 			y--;
 		}
+		//Saying if position (column,row) is true, then all variables in temp has to be false.
 		BDD newRule = currentCell.imp(temp);
 		rules.andWith(newRule);
 	}
