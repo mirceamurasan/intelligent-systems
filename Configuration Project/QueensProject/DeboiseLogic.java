@@ -1,3 +1,7 @@
+import net.sf.javabdd.BDD;
+import net.sf.javabdd.BDDFactory;
+import net.sf.javabdd.JFactory;
+
 /**
  * This class implements a basic logic for the n-queens problem to get you started. 
  * Actually, when inserting a queen, it only puts the queen where requested
@@ -31,7 +35,7 @@ public class DeboiseLogic implements IQueensLogic{
     }
 	
 	public void generateBdd(){
-		//oneQueenPerRow();
+		oneQueenPerRow();
 		
 		for(int i=0;i<size;i++){
 			for(int j=0;j<size;j++){
@@ -43,26 +47,26 @@ public class DeboiseLogic implements IQueensLogic{
 		}
 	}
 	
-	public void queenOnRow(int i,int j){
+	public void queenOnRow(int column,int row){
 		BDD temp=factory.one(); // we use one because we will use the and operator (one being neutral with and)
-		int current=getVariable(i,j);
+		int current=getVariable(column,row);
 		BDD currentCell=factory.ithVar(current);
 		for(int x=0;x<size;x++){
-			if(x!=i){
-				temp.andWith(factory.nithVar(getVariable(i,j)));
+			if(x!=column){
+				temp.andWith(factory.nithVar(getVariable(x, row)));
 			}
 		}
 		BDD newRule = currentCell.andWith(temp); //
 		rules.andWith(newRule);
 	}
-	
-	public void queenOnCol(int i,int j){
+	// [Column, Row] [i, j]
+	public void queenOnCol(int column,int row){
 		BDD temp=factory.one(); // we use one because we will use the and operator (one being neutral with and)
-		int current=getVariable(i,j);
+		int current=getVariable(column,row);
 		BDD currentCell=factory.ithVar(current);
 		for(int x=0;x<size;x++){
-			if(x!=j){
-				temp.andWith(factory.nithVar(getVariable(i,j)));
+			if(x!=row){
+				temp.andWith(factory.nithVar(getVariable(column, x)));
 			}
 		}
 		BDD newRule = currentCell.andWith(temp); //
@@ -70,30 +74,43 @@ public class DeboiseLogic implements IQueensLogic{
 	}
 	
 	public void queenOnDiagonalOne(int i,int j){
-		Bdd temp=factory.one();
+		BDD temp=factory.one();
 		int current=getVariable(i,j);
 		BDD currentCell=factory.ithVar(current);
-		for(int x=0;x<size;x++){
-			for(int y=0;y<size;y++){
-				if(x!=i && y!=j){
-					temp.andWith(factory.nithVar(getVariable(i,j)));
+
+		int x = j - size;
+		int y = i - size;
+		while (x < size && y < size) {
+			if (x >= 0 && y >= 0 && x < size && y < size) {
+				if(x!=j && y!=i){
+					temp.andWith(factory.nithVar(getVariable(y,x)));
 				}
 			}
+
+			x++;
+			y++;
 		}
+
 		BDD newRule = currentCell.andWith(temp); //
 		rules.andWith(newRule);
 	}
 	
 	public void queenOnDiagonalTwo(int i,int j){
-		Bdd temp=factory.one();
+		BDD temp=factory.one();
 		int current=getVariable(i,j);
 		BDD currentCell=factory.ithVar(current);
-		for(int x=size-1;x>0;x--){
-			for(int y=size-1;y>0;y--){
-				if(x!=i && y!=j){
-					temp.andWith(factory.nithVar(getVariable(i,j)));
+
+		int x = j - size;
+		int y = i + size;
+		while (x < size && y >= 0) {
+			if (x >= 0 && y >= 0 && x < size && y < size) {
+				if(x!=j && y!=i){
+					temp.andWith(factory.nithVar(getVariable(y,x)));
 				}
 			}
+
+			x++;
+			y--;
 		}
 		BDD newRule = currentCell.andWith(temp); //
 		rules.andWith(newRule);
@@ -112,12 +129,16 @@ public class DeboiseLogic implements IQueensLogic{
 	}
 	
 	 private int getVariable(int column, int row) {
-        return row * N + column;
+        return row * this.size + column;
     }
 
     public void insertQueen(int column, int row)
     {
+    	// Need to add constraint to the BDD (Column, Row)
+		// Need to update Board with getVariable for all positions
         if (isValidPlacement(column, row)) {
+        	rules.andWith(factory.ithVar(getVariable(column, row)));
+
             markIllegalMoves(column, row);
             board[column][row] = 1;
         }
