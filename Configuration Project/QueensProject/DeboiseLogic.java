@@ -137,10 +137,16 @@ public class DeboiseLogic implements IQueensLogic{
     	// Need to add constraint to the BDD (Column, Row)
 		// Need to update Board with getVariable for all positions
         if (isValidPlacement(column, row)) {
-        	rules.andWith(factory.ithVar(getVariable(column, row)));
+			board[column][row] = 1;
+			factory.ithVar(getVariable(column, row))rules.restrictWith();
 
-            markIllegalMoves(column, row);
-            board[column][row] = 1;
+			for (int col = 0; col < size; col++) {
+				for (int rov = 0; rov < size; rov++) {
+					if (!factory.ithVar(getVariable(col,rov)).isZero()) {
+						board[col][rov] = -1;
+					}
+				}
+			}
         }
     }
 
